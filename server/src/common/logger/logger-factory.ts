@@ -7,17 +7,21 @@ export const createLogger = (fileName: string) => {
       ? undefined
       : pino.transport({
           targets: [
-            {
-              level: "info",
-              target: "pino/file",
-              options: {
-                destination: path.join(
-                  process.cwd(),
-                  "logs",
-                  fileName + ".log",
-                ),
-              },
-            },
+            ...(process.env["LOG_TO_FILE"] === "true"
+              ? [
+                  {
+                    level: "info" as const,
+                    target: "pino/file",
+                    options: {
+                      destination: path.join(
+                        process.cwd(),
+                        "logs",
+                        fileName + ".log",
+                      ),
+                    },
+                  },
+                ]
+              : []),
             {
               level: process.env.LOG_LEVEL || "info",
               target: "pino-pretty",

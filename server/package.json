@@ -22,7 +22,7 @@
     "canary-tests": "ts-node integration-tests/canary-tests/verify-portfolio-difference.ts",
     "fix-errors": "ts-node integration-tests/canary-tests/fix-errors.ts",
     "format": "prettier --write . --ignore-path ../.gitignore",
-    "copy-env-to-dist": "cp *.env ./dist && if [ -f .env ]; then cp .env ./dist; fi"
+    "copy-env-to-dist": "cp *.env ./dist 2>/dev/null; if [ -f .env ]; then cp .env ./dist; fi"
   },
   "author": "",
   "license": "ISC",
