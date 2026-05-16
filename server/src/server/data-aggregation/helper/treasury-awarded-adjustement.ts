@@ -1,5 +1,6 @@
 import { SubscanEvent } from "../../blockchain/substrate/model/subscan-event";
 import { PortfolioMovement } from "../model/portfolio-movement";
+import { isVeryCloseTo } from "../../../common/util/is-very-close-to";
 
 export const applyTreasuryAwardedAdjustment = (
   portfolioMovements: PortfolioMovement[],
@@ -15,8 +16,10 @@ export const applyTreasuryAwardedAdjustment = (
     if (
       matchingMovement &&
       matchingMovement.transfers.length === 2 &&
-      matchingMovement.transfers[0].amount ===
-        matchingMovement.transfers[1].amount
+      isVeryCloseTo(
+        matchingMovement.transfers[0].amount,
+        matchingMovement.transfers[1].amount,
+      )
     ) {
       matchingMovement.transfers = [matchingMovement.transfers[0]];
     }
