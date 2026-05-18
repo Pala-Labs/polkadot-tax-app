@@ -1,42 +1,26 @@
 <template>
-  <div class="bg-white q-py-lg" style="border-top: solid 1px black">
-    <div class="row q-col-gutter-sm" style="margin: auto; max-width: 1024px">
-      <div class="col-12 col-md-4 desktop-only">
-        <div class="row items-center justify-center">
-          <q-img
-            src="/favicon.ico"
-            style="border-radius: 50%; max-width: 2rem; height: 2rem"
-            fit="scale-down"
-          />
-          <span class="q-ml-sm text-weight-bold">PolkaTax</span>
-        </div>
-        <div class="q-mt-sm text-center">
-          The easiest way to handle your Substrate chain tax reporting.
-        </div>
+  <footer class="os-footer">
+    <div class="os-footer__inner">
+      <div class="os-footer__brand desktop-only">
+        <img src="/favicon.ico" class="os-footer__logo" alt="" />
+        <span class="os-footer__name">PolkaTax</span>
+        <p class="os-footer__tagline">The easiest way to handle your Substrate chain tax reporting.</p>
       </div>
-      <div class="col-6 col-md-4" v-for="(group, g) in footerLinks" :key="g">
-        <div class="text-subtitle2 text-weight-bold q-mb-sm text-center">
-          {{ group.title }}
-        </div>
-        <div v-for="link in group.links" :key="link" class="text-center">
-          <router-link
-            v-if="link?.routerLink"
-            :to="link.routerLink"
-            class="text-black"
-            >{{ link.label }}</router-link
-          >
-          <a v-if="link.link" :href="link.link" class="text-black">{{
-            link.label
-          }}</a>
+      <div v-for="(group, g) in footerLinks" :key="g" class="os-footer__col">
+        <div class="os-footer__group-title eyebrow">{{ group.title }}</div>
+        <div v-for="link in group.links" :key="link.label" class="os-footer__link-wrap">
+          <router-link v-if="link.routerLink" :to="link.routerLink" class="os-footer__link">{{ link.label }}</router-link>
+          <a v-if="link.link" :href="link.link" class="os-footer__link" target="_blank" rel="noopener">{{ link.label }}</a>
         </div>
       </div>
     </div>
-    <div class="text-center">
-      2025 PolkaTax. Crypto currency quotes are provided by
-      <a href="https://coingecko.com" class="text-black">coingecko.com</a>
+    <div class="os-footer__bottom">
+      2025 PolkaTax. Crypto currency quotes provided by
+      <a href="https://coingecko.com" class="os-footer__link" target="_blank" rel="noopener">coingecko.com</a>
     </div>
-  </div>
+  </footer>
 </template>
+
 <script setup lang="ts">
 const footerLinks = [
   {
@@ -48,12 +32,69 @@ const footerLinks = [
   {
     title: 'Resources',
     links: [
-      {
-        label: 'GitHub',
-        routerLink: undefined,
-        link: 'https://github.com/polkatax/polkatax',
-      },
+      { label: 'GitHub', routerLink: undefined, link: 'https://github.com/polkatax/polkatax' },
     ],
   },
 ];
 </script>
+
+<style scoped>
+.os-footer {
+  background: var(--canvas);
+  border-top: 1px solid var(--border);
+  font-family: var(--font-sans);
+}
+.os-footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6);
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--sp-8);
+}
+@media (max-width: 768px) {
+  .os-footer__inner { grid-template-columns: 1fr 1fr; }
+}
+.os-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.os-footer__logo {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-md);
+}
+.os-footer__name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semi);
+  color: var(--ink);
+}
+.os-footer__tagline {
+  font-size: var(--fs-sm);
+  color: var(--ink-50);
+  margin: 0;
+  line-height: var(--lh-normal);
+}
+.os-footer__col { display: flex; flex-direction: column; gap: var(--sp-2); }
+.os-footer__group-title { margin-bottom: var(--sp-1); }
+.os-footer__link-wrap { display: flex; }
+.os-footer__link {
+  font-size: var(--fs-sm);
+  color: var(--ink-50);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.os-footer__link:hover {
+  color: var(--blue-500);
+  border-bottom-color: var(--blue-500);
+}
+.os-footer__bottom {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-sm);
+  color: var(--ink-50);
+}
+</style>

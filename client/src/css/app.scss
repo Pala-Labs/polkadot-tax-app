@@ -1,28 +1,151 @@
-// app global css in SCSS form
+@import './tokens.css';
+
+/* Layout constraints */
 .content {
   max-width: 1200px;
   min-height: 0 !important;
 }
 
+/* Responsive utilities */
 .desktop-only {
   @media (max-width: 600px) {
     display: none;
   }
 }
+.mobile-only {
+  @media (min-width: 601px) {
+    display: none;
+  }
+}
 
+/* Spinner animation */
 .spinner {
   animation: spin 2s linear infinite;
   display: inline-block;
-  transition: 1s all;
-}
-
-.q-layout {
-  font-family: 'Inter', sans-serif;
-  margin: auto;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(-360deg);
+  to { transform: rotate(-360deg); }
+}
+
+/* Global base */
+html, body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--tr-snug);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+.q-layout {
+  font-family: var(--font-sans);
+  background: var(--paper);
+}
+
+/* Typography utility classes */
+.eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semi);
+  letter-spacing: var(--tr-wide);
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+.muted { color: var(--ink-50); }
+.mono  { font-family: var(--font-mono); }
+
+/* OS Button base — overrides Quasar pill shape */
+.q-btn {
+  border-radius: var(--r-md) !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: var(--fw-medium) !important;
+  letter-spacing: var(--tr-snug) !important;
+  text-transform: none !important;
+  transition: background var(--dur) var(--ease),
+              color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              transform var(--dur-fast) var(--ease) !important;
+  box-shadow: none !important;
+
+  &:active { transform: translateY(1px) !important; }
+}
+
+/* Remove Quasar ripple */
+.q-ripple { display: none !important; }
+
+/* OS Card base — overrides Quasar shadows and rounding */
+.q-card {
+  border-radius: var(--r-md) !important;
+  box-shadow: none !important;
+  background: var(--canvas) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* OS Badge / pill overrides */
+.q-badge {
+  border-radius: var(--r-pill) !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: var(--fw-semi) !important;
+  padding: 2px 8px !important;
+  background: var(--mist) !important;
+  color: var(--ink-70) !important;
+}
+
+/* OS Table overrides */
+.q-table {
+  border-radius: var(--r-md) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  background: var(--canvas) !important;
+
+  thead tr th {
+    font-family: var(--font-sans) !important;
+    font-size: var(--fs-xs) !important;
+    font-weight: var(--fw-semi) !important;
+    letter-spacing: var(--tr-wide) !important;
+    text-transform: uppercase !important;
+    color: var(--ink-50) !important;
+    background: var(--canvas) !important;
+    border-bottom: 1px solid var(--border-strong) !important;
+    height: 36px !important;
   }
+
+  tbody tr {
+    height: 32px !important;
+    td {
+      font-size: var(--fs-base) !important;
+      color: var(--ink) !important;
+      border-bottom: 1px solid var(--border) !important;
+    }
+    &:hover td {
+      background: var(--mist) !important;
+    }
+  }
+}
+
+/* OS Input overrides */
+.q-field__control {
+  border-radius: var(--r-md) !important;
+  background: var(--mist) !important;
+  min-height: 36px !important;
+}
+
+/* OS Tabs override */
+.q-tabs__content .q-tab {
+  font-family: var(--font-sans) !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: var(--fw-medium) !important;
+  letter-spacing: var(--tr-snug) !important;
+  text-transform: none !important;
+  border-radius: 0 !important;
+  min-height: 52px !important;
+}
+
+/* OS dialog/modal override */
+.q-dialog__inner .q-card {
+  border-radius: var(--r-lg) !important;
+  box-shadow: var(--shadow-pop) !important;
 }

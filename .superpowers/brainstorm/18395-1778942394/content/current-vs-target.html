@@ -1,0 +1,130 @@
+<h2>Current design vs. OpenShore target</h2>
+<p class="subtitle">Showing the same landing-page hero in both styles — same content, very different feel</p>
+
+<div class="split" style="gap: 32px; align-items: flex-start;">
+
+  <!-- CURRENT DESIGN -->
+  <div class="mockup" style="flex: 1;">
+    <div class="mockup-header">Current — Quasar / Polkadot pink</div>
+    <div class="mockup-body" style="padding: 0; overflow: hidden; border-radius: 0 0 6px 6px;">
+      <div style="background: #f5f5f5; font-family: 'Inter', sans-serif;">
+
+        <!-- current header -->
+        <div style="background: #fafafa; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, rgba(230,0,122,0.8), #9c27b0); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px;">P</div>
+            <span style="font-weight: 700; font-size: 18px;">PolkaTax</span>
+          </div>
+          <div style="display: flex; gap: 24px; font-size: 14px;">
+            <span style="color: rgba(230,0,122,0.8); border-bottom: 2px solid rgba(230,0,122,0.8); padding-bottom: 2px;">Wallets</span>
+            <span>Tutorial &amp; FAQ</span>
+            <span style="width: 32px; height: 32px; border-radius: 50%; background: #eee; display: flex; align-items: center; justify-content: center;">⚙</span>
+          </div>
+        </div>
+
+        <!-- current hero -->
+        <div style="background: #f5f5f5; padding: 48px 32px; text-align: center;">
+          <h1 style="font-size: 32px; font-weight: 700; margin: 0 0 16px; color: #1d1d1d;">Simplify Your Substrate Tax Reporting</h1>
+          <p style="font-size: 16px; color: #666; margin: 0 0 32px;">Automatically fetch tax-relevant transactions from all Substrate chains and export for your tax software.</p>
+          <button style="background: rgba(230,0,122,0.8); color: white; border: none; padding: 14px 32px; border-radius: 28px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s; box-shadow: 0 8px 20px rgba(230,0,122,0.3);">Launch App</button>
+        </div>
+
+        <!-- current feature cards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding: 0 24px 24px;">
+          <div style="background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+            <div style="background: #fde2e4; color: #ec4899; width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">🧾</div>
+            <div style="font-weight: 600; margin-bottom: 6px;">Transaction Tracking</div>
+            <div style="font-size: 13px; color: #666;">Fetch staking rewards, payments, swaps across all connected chains.</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+            <div style="background: #dbeafe; color: #3b82f6; width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">📄</div>
+            <div style="font-weight: 600; margin-bottom: 6px;">Export Reports</div>
+            <div style="font-size: 13px; color: #666;">Generate PDF/CSV for further processing or direct usage.</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+            <div style="background: #ede9fe; color: #8b5cf6; width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">🧮</div>
+            <div style="font-weight: 600; margin-bottom: 6px;">Tax Software Integration</div>
+            <div style="font-size: 13px; color: #666;">Integrates with tax software such as Koinly.</div>
+          </div>
+        </div>
+
+        <!-- current badge strip -->
+        <div style="padding: 8px 24px 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: #9c27b0; color: white; border-radius: 12px; padding: 3px 12px; font-size: 12px;">Polkadot</span>
+          <span style="background: #9c27b0; color: white; border-radius: 12px; padding: 3px 12px; font-size: 12px;">Kusama</span>
+          <span style="background: #9c27b0; color: white; border-radius: 12px; padding: 3px 12px; font-size: 12px;">Moonbeam</span>
+          <span style="background: #9c27b0; color: white; border-radius: 12px; padding: 3px 12px; font-size: 12px;">Acala</span>
+          <span style="background: #21ba45; color: white; border-radius: 12px; padding: 3px 12px; font-size: 12px;">+ more</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARGET DESIGN -->
+  <div class="mockup" style="flex: 1;">
+    <div class="mockup-header">Target — OpenShore design system</div>
+    <div class="mockup-body" style="padding: 0; overflow: hidden; border-radius: 0 0 6px 6px;">
+      <div style="background: #F7F8FA; font-family: 'Inter Tight', 'Inter', sans-serif;">
+
+        <!-- openshore header -->
+        <div style="background: #FFFFFF; padding: 0 20px; height: 52px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E1E5EC;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 24px; height: 24px; background: #2861E6; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 700;">P</div>
+            <span style="font-weight: 600; font-size: 14px; color: #0A0E1A; letter-spacing: -0.01em;">PolkaTax</span>
+          </div>
+          <div style="display: flex; gap: 0; font-size: 13px; font-weight: 500; letter-spacing: -0.01em;">
+            <span style="color: #2861E6; padding: 0 12px; height: 52px; display: flex; align-items: center; border-bottom: 2px solid #2861E6; background: #EAF1FF;">Wallets</span>
+            <span style="color: #5A6173; padding: 0 12px; height: 52px; display: flex; align-items: center;">Tutorial &amp; FAQ</span>
+            <div style="width: 30px; height: 30px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #5A6173; border: 1px solid #E1E5EC; margin-left: 8px; font-size: 13px; cursor: pointer; align-self: center;">⚙</div>
+          </div>
+        </div>
+
+        <!-- openshore hero -->
+        <div style="padding: 64px 32px 48px; text-align: center;">
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A6173; display: block; margin-bottom: 12px;">Substrate tax reporting</span>
+          <h1 style="font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: #0A0E1A; margin: 0 0 16px; text-wrap: balance;">Simplify your substrate<br>tax reporting</h1>
+          <p style="font-size: 15px; color: #5A6173; margin: 0 0 32px; line-height: 1.6; letter-spacing: -0.01em;">Fetch tax-relevant transactions from all Substrate chains.<br>Export for your tax software in one click.</p>
+          <button style="background: #2861E6; color: white; border: 1px solid #1E4DC9; padding: 0 20px; height: 36px; border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; letter-spacing: -0.01em; font-family: 'Inter Tight', 'Inter', sans-serif;">Launch app</button>
+        </div>
+
+        <!-- openshore feature cards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 0 24px 24px;">
+          <div style="background: #FFFFFF; border: 1px solid #E1E5EC; border-radius: 4px; padding: 16px;">
+            <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A6173; margin-bottom: 8px;">Transaction tracking</div>
+            <div style="font-size: 14px; color: #0A0E1A; line-height: 1.45; letter-spacing: -0.01em;">Fetch staking rewards, payments, swaps across all connected chains.</div>
+          </div>
+          <div style="background: #FFFFFF; border: 1px solid #E1E5EC; border-radius: 4px; padding: 16px;">
+            <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A6173; margin-bottom: 8px;">Export reports</div>
+            <div style="font-size: 14px; color: #0A0E1A; line-height: 1.45; letter-spacing: -0.01em;">Generate PDF/CSV for further processing or direct usage.</div>
+          </div>
+          <div style="background: #FFFFFF; border: 1px solid #E1E5EC; border-radius: 4px; padding: 16px;">
+            <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A6173; margin-bottom: 8px;">Tax software integration</div>
+            <div style="font-size: 14px; color: #0A0E1A; line-height: 1.45; letter-spacing: -0.01em;">Integrates with Koinly and other tax tools.</div>
+          </div>
+        </div>
+
+        <!-- openshore chain pills -->
+        <div style="padding: 0 24px 20px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <span style="background: #EEF1F6; border: 1px solid #E1E5EC; color: #5A6173; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Polkadot</span>
+          <span style="background: #EEF1F6; border: 1px solid #E1E5EC; color: #5A6173; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Kusama</span>
+          <span style="background: #EEF1F6; border: 1px solid #E1E5EC; color: #5A6173; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Moonbeam</span>
+          <span style="background: #EEF1F6; border: 1px solid #E1E5EC; color: #5A6173; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Acala</span>
+          <span style="background: #EAF1FF; border: 1px solid #A4C0FF; color: #2861E6; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">+ more</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; font-size: 14px; color: #374151; line-height: 1.6;">
+  <strong>Key differences at a glance:</strong>
+  <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+    <li><strong>Color:</strong> Pink (#E6007A) → Blue (#2861E6). Single brand accent, used sparingly.</li>
+    <li><strong>Radius:</strong> 16–20px rounded → 4px sharp corners throughout.</li>
+    <li><strong>Cards:</strong> Frosted glass / backdrop-blur / drop shadow → flat white, 1px border, no shadow.</li>
+    <li><strong>Buttons:</strong> Pill shape, scale-on-hover → 4px radius, translateY(1px) on press, no scale.</li>
+    <li><strong>Type:</strong> Regular Inter → Inter Tight, tighter tracking, sentence case everywhere.</li>
+    <li><strong>Icons/badges:</strong> Emoji + colored badges → mono code chips (JetBrains Mono), Lucide icons.</li>
+  </ul>
+</div>

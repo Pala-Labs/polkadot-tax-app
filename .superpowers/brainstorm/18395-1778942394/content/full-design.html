@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PolkaTax — OpenShore redesign preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root {
+  --paper: #F7F8FA; --canvas: #FFFFFF; --mist: #EEF1F6;
+  --border: #E1E5EC; --border-strong: #C7CDD7;
+  --ink: #0A0E1A; --ink-70: #2E3340; --ink-50: #5A6173; --ink-30: #8B92A3; --ink-15: #BCC2CE;
+  --blue-50: #EAF1FF; --blue-100: #D1E0FF; --blue-200: #A4C0FF; --blue-300: #6E97F8;
+  --blue-500: #2861E6; --blue-600: #1E4DC9; --blue-700: #163FA8;
+  --font-sans: 'Inter Tight', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --r-md: 4px; --r-lg: 6px; --r-pill: 9999px;
+  --shadow-pop: 0 8px 24px rgba(10,14,26,0.14), 0 2px 6px rgba(10,14,26,0.08);
+  --ease: cubic-bezier(0.2,0,0,1); --dur: 180ms;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans); font-size: 14px; color: var(--ink);
+  background: #1a1d23; padding: 24px; line-height: 1.45; letter-spacing: -0.01em;
+}
+h1 { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 6px; letter-spacing: -0.02em; }
+.subtitle { font-size: 14px; color: #8b92a3; margin-bottom: 32px; }
+
+/* SCREEN WRAPPER */
+.screen {
+  background: var(--paper); border-radius: 8px; overflow: hidden;
+  margin-bottom: 40px; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), var(--shadow-pop);
+}
+.screen-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #8b92a3; margin-bottom: 10px; font-family: var(--font-mono);
+}
+
+/* NAV */
+.os-nav {
+  background: var(--canvas); height: 52px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0;
+}
+.os-nav-left { display: flex; align-items: center; gap: 12px; }
+.os-logo-mark {
+  width: 24px; height: 24px; background: var(--blue-500); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 11px; font-weight: 700; font-family: var(--font-mono); flex-shrink: 0;
+}
+.os-logo-text { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+.os-nav-links { display: flex; height: 52px; }
+.os-nav-link {
+  display: flex; align-items: center; padding: 0 14px; font-size: 13px; font-weight: 500;
+  color: var(--ink-50); height: 100%; border-bottom: 2px solid transparent; cursor: pointer;
+  transition: color var(--dur) var(--ease);
+}
+.os-nav-link.active { color: var(--blue-500); border-bottom-color: var(--blue-500); background: var(--blue-50); }
+.os-nav-link:hover:not(.active) { color: var(--ink); }
+.os-nav-right { display: flex; align-items: center; gap: 8px; }
+.os-icon-btn {
+  width: 30px; height: 30px; border-radius: var(--r-md); border: 1px solid var(--border);
+  background: transparent; color: var(--ink-50); cursor: pointer; display: flex;
+  align-items: center; justify-content: center; font-size: 13px;
+  transition: background var(--dur) var(--ease);
+}
+.os-icon-btn:hover { background: var(--mist); }
+
+/* BREADCRUMB */
+.os-breadcrumb {
+  height: 36px; border-bottom: 1px solid var(--border); background: var(--canvas);
+  display: flex; align-items: center; padding: 0 20px; gap: 6px;
+  font-size: 12px; color: var(--ink-30); font-family: var(--font-mono);
+}
+.os-breadcrumb a { color: var(--blue-500); }
+.os-breadcrumb .sep { color: var(--ink-30); }
+
+/* BUTTONS */
+.btn-primary {
+  background: var(--blue-500); color: #fff; border: 1px solid var(--blue-600);
+  border-radius: var(--r-md); font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+  letter-spacing: -0.01em; padding: 0 16px; height: 30px; cursor: pointer; line-height: 1;
+  transition: background var(--dur) var(--ease);
+}
+.btn-primary:hover { background: var(--blue-600); }
+.btn-primary.lg { height: 36px; padding: 0 20px; font-size: 13px; }
+.btn-secondary {
+  background: var(--canvas); color: var(--ink); border: 1px solid var(--border-strong);
+  border-radius: var(--r-md); font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+  letter-spacing: -0.01em; padding: 0 14px; height: 30px; cursor: pointer; line-height: 1;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn-secondary:hover { background: var(--mist); border-color: var(--ink-50); }
+.btn-ghost {
+  background: transparent; color: var(--ink-70); border: none;
+  border-radius: var(--r-md); font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+  letter-spacing: -0.01em; padding: 0 12px; height: 30px; cursor: pointer; line-height: 1;
+  transition: background var(--dur) var(--ease);
+}
+.btn-ghost:hover { background: var(--mist); }
+
+/* CARDS */
+.os-card {
+  background: var(--canvas); border: 1px solid var(--border); border-radius: var(--r-md);
+  padding: 16px;
+}
+.os-card:hover { border-color: var(--ink-50); }
+
+/* EYEBROW */
+.eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+/* STAT TILE */
+.stat-tile { display: flex; flex-direction: column; gap: 4px; }
+.stat-value {
+  font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1;
+}
+.stat-delta {
+  font-family: var(--font-mono); font-size: 12px; color: var(--ink-50);
+}
+
+/* INPUT */
+.os-input {
+  height: 30px; background: var(--mist); border: 1px solid var(--border);
+  border-radius: var(--r-md); font-family: var(--font-mono); font-size: 12px;
+  color: var(--ink); padding: 0 10px; outline: none; width: 100%;
+}
+.os-input:focus { outline: 2px solid var(--blue-500); outline-offset: 2px; }
+.os-input::placeholder { color: var(--ink-30); }
+
+/* PILL */
+.os-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--mist); border-radius: var(--r-pill); padding: 2px 8px;
+  font-size: 11px; font-weight: 600; color: var(--ink-70);
+}
+.os-pill.active {
+  background: var(--blue-50); color: var(--blue-700);
+}
+.os-pill.active::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--blue-500);
+  display: inline-block;
+}
+.os-code {
+  font-family: var(--font-mono); font-size: 11px; background: var(--mist);
+  border: 1px solid var(--border); border-radius: 2px; padding: 1px 5px; color: var(--ink-70);
+}
+
+/* TABLE */
+.os-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.os-table th {
+  text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-50);
+  border-bottom: 1px solid var(--border-strong); position: sticky; top: 0;
+  background: var(--canvas);
+}
+.os-table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--ink); vertical-align: middle;
+}
+.os-table tr:hover td { background: var(--mist); }
+.os-table tr.selected td { background: var(--blue-50); }
+.os-table td.mono { font-family: var(--font-mono); font-size: 12px; color: var(--ink-50); }
+
+/* PAGE PADDING */
+.os-page { padding: 20px; }
+
+/* SECTION */
+.os-section { margin-bottom: 24px; }
+
+/* TOGGLE */
+.os-toggle {
+  width: 32px; height: 18px; border-radius: 9px; border: 1px solid var(--border-strong);
+  background: var(--mist); position: relative; cursor: pointer; flex-shrink: 0;
+}
+.os-toggle::after {
+  content: ''; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--ink-30); position: absolute; top: 2px; left: 2px;
+  transition: left var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.os-toggle.on { background: var(--blue-500); border-color: var(--blue-600); }
+.os-toggle.on::after { left: 16px; background: #fff; }
+
+/* FOOTER */
+.os-footer {
+  border-top: 1px solid var(--border); background: var(--canvas); padding: 20px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+}
+.os-footer-brand { display: flex; flex-direction: column; gap: 6px; }
+.os-footer-brand-row { display: flex; align-items: center; gap: 8px; }
+.os-footer-title { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 8px; }
+.os-footer-link { font-size: 13px; color: var(--blue-500); margin-bottom: 4px; display: block; }
+
+/* EXPAND */
+.os-expand {
+  border: 1px solid var(--border); border-radius: var(--r-md); margin-bottom: 6px; overflow: hidden;
+}
+.os-expand-header {
+  padding: 12px 16px; font-size: 14px; font-weight: 500; color: var(--ink);
+  background: var(--canvas); display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+}
+.os-expand-header:hover { background: var(--mist); }
+.os-expand-body {
+  padding: 12px 16px; font-size: 14px; color: var(--ink-50); border-top: 1px solid var(--border);
+  background: var(--canvas); line-height: 1.6;
+}
+
+/* SELECT */
+.os-select {
+  height: 30px; background: var(--mist); border: 1px solid var(--border);
+  border-radius: var(--r-md); font-family: var(--font-sans); font-size: 13px;
+  color: var(--ink); padding: 0 10px; outline: none;
+}
+
+/* TAB BAR */
+.os-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--canvas); padding: 0 20px; }
+.os-tab {
+  padding: 0 16px; height: 40px; font-size: 13px; font-weight: 500; color: var(--ink-50);
+  border-bottom: 2px solid transparent; cursor: pointer; display: flex; align-items: center;
+}
+.os-tab.active { color: var(--blue-500); border-bottom-color: var(--blue-500); }
+
+/* GRID */
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* SPINNER MOCK */
+.spin-icon { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--blue-500); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* CHART MOCK */
+.chart-bars { display: flex; align-items: flex-end; gap: 3px; height: 80px; padding: 0 4px; }
+.chart-bar { flex: 1; background: var(--blue-500); border-radius: 2px 2px 0 0; opacity: 0.8; }
+
+/* SECTION DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* BADGE STRIP */
+.badge-strip { display: flex; flex-wrap: wrap; gap: 6px; }
+
+body { scrollbar-width: thin; scrollbar-color: #3a3f4b #1a1d23; }
+</style>
+</head>
+<body>
+
+<h1>PolkaTax — OpenShore redesign</h1>
+<p class="subtitle">All 5 views redesigned using the OpenShore design system. This is what the app will look like after Option B.</p>
+
+<!-- ================================================ -->
+<!-- 1. LANDING PAGE -->
+<!-- ================================================ -->
+<p class="screen-label">1 / 5 — Landing page (WelcomeAll.vue)</p>
+<div class="screen">
+
+  <!-- mini-nav -->
+  <div class="os-nav">
+    <div class="os-nav-left">
+      <div class="os-logo-mark">P</div>
+      <span class="os-logo-text">PolkaTax</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="#" style="color:var(--blue-500);font-size:13px;font-weight:500;border-bottom:1px solid transparent;text-decoration:none;" onmouseover="this.style.borderBottomColor='var(--blue-500)'" onmouseout="this.style.borderBottomColor='transparent'">Wallets</a>
+      <a href="#" style="color:var(--ink-50);font-size:13px;font-weight:500;border-bottom:1px solid transparent;text-decoration:none;" onmouseover="this.style.borderBottomColor='var(--blue-500)'" onmouseout="this.style.borderBottomColor='transparent'">Tutorial &amp; FAQ</a>
+      <div class="os-icon-btn">⚙</div>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div style="padding:64px 40px 48px;text-align:center;background:var(--paper);">
+    <span class="eyebrow" style="display:block;margin-bottom:12px;">Substrate tax reporting</span>
+    <h2 style="font-size:36px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;color:var(--ink);margin-bottom:16px;text-wrap:balance;">Simplify your substrate<br>tax reporting</h2>
+    <p style="font-size:15px;color:var(--ink-50);line-height:1.6;margin-bottom:32px;letter-spacing:-0.01em;">
+      Fetch tax-relevant transactions from all Substrate chains.<br>Export for your tax software in one click.
+    </p>
+    <button class="btn-primary lg">Launch app →</button>
+  </div>
+
+  <!-- feature cards -->
+  <div style="padding:0 24px 24px;background:var(--paper);">
+    <div class="grid-3">
+      <div class="os-card">
+        <div class="eyebrow" style="margin-bottom:8px;">Transaction tracking</div>
+        <div style="font-size:14px;color:var(--ink);line-height:1.5;">Fetch staking rewards, payments, swaps across all connected chains.</div>
+      </div>
+      <div class="os-card">
+        <div class="eyebrow" style="margin-bottom:8px;">Export reports</div>
+        <div style="font-size:14px;color:var(--ink);line-height:1.5;">Generate PDF/CSV for further processing or direct usage.</div>
+      </div>
+      <div class="os-card">
+        <div class="eyebrow" style="margin-bottom:8px;">Tax software integration</div>
+        <div style="font-size:14px;color:var(--ink);line-height:1.5;">Direct integration with Koinly — import your CSV in two clicks.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- supported chains -->
+  <div style="padding:0 24px 32px;background:var(--paper);">
+    <div class="eyebrow" style="margin-bottom:10px;">Supported chains</div>
+    <div class="badge-strip">
+      <span class="os-code">polkadot</span>
+      <span class="os-code">kusama</span>
+      <span class="os-code">moonbeam</span>
+      <span class="os-code">acala</span>
+      <span class="os-code">astar</span>
+      <span class="os-code">bifrost</span>
+      <span class="os-code">hydration</span>
+      <span class="os-code">peaq</span>
+      <span class="os-code">kilt</span>
+      <span style="font-size:13px;color:var(--ink-50);align-self:center;">+ more</span>
+    </div>
+  </div>
+
+  <!-- CTA strip -->
+  <div style="background:var(--canvas);border-top:1px solid var(--border);padding:24px 40px;text-align:center;">
+    <p style="font-size:14px;color:var(--ink-50);margin-bottom:14px;">Ready to simplify your crypto taxes?</p>
+    <button class="btn-primary lg">Launch app →</button>
+  </div>
+
+  <!-- footer -->
+  <div class="os-footer">
+    <div class="os-footer-brand">
+      <div class="os-footer-brand-row">
+        <div class="os-logo-mark" style="width:20px;height:20px;font-size:10px;">P</div>
+        <span style="font-weight:600;font-size:13px;">PolkaTax</span>
+      </div>
+      <span style="font-size:13px;color:var(--ink-50);">The easiest way to handle your Substrate chain tax reporting.</span>
+    </div>
+    <div>
+      <div class="os-footer-title">Product</div>
+      <a class="os-footer-link" href="#">Tutorial &amp; FAQ</a>
+    </div>
+    <div>
+      <div class="os-footer-title">Resources</div>
+      <a class="os-footer-link" href="#">GitHub</a>
+    </div>
+  </div>
+  <div style="background:var(--canvas);padding:8px 20px 16px;border-top:1px solid var(--border);font-size:12px;color:var(--ink-30);text-align:center;">
+    2025 PolkaTax. Crypto currency quotes provided by <a href="#" style="color:var(--blue-500);">coingecko.com</a>
+  </div>
+
+</div>
+
+<!-- ================================================ -->
+<!-- 2. APP HEADER (used on all inner pages) -->
+<!-- ================================================ -->
+<p class="screen-label">2 / 5 — App header + breadcrumb (AppHeader.vue / MainLayout.vue)</p>
+<div class="screen">
+  <div class="os-nav">
+    <div class="os-nav-left">
+      <div class="os-logo-mark">P</div>
+      <span class="os-logo-text">PolkaTax</span>
+    </div>
+    <div class="os-nav-links">
+      <div class="os-nav-link active">Wallets</div>
+      <div class="os-nav-link">Tutorial &amp; FAQ</div>
+    </div>
+    <div class="os-nav-right">
+      <div class="os-icon-btn" title="Settings">⚙</div>
+    </div>
+  </div>
+  <div class="os-breadcrumb">
+    <a href="#">Wallets</a>
+    <span class="sep">/</span>
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-50);">14xxxxxx…BKcZ</span>
+    <span class="sep">/</span>
+    <span style="color:var(--ink);">DOT</span>
+  </div>
+  <div style="padding:12px 20px;background:var(--paper);font-size:13px;color:var(--ink-50);">
+    ← On non-root pages, the logo is replaced with a ← Back button (secondary variant).
+    Breadcrumb shows the full path in <span class="os-code">mono</span>.
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- 3. WALLETS DASHBOARD -->
+<!-- ================================================ -->
+<p class="screen-label">3 / 5 — Wallets dashboard (WalletsDashboard.vue)</p>
+<div class="screen">
+  <div class="os-nav">
+    <div class="os-nav-left">
+      <div class="os-logo-mark">P</div>
+      <span class="os-logo-text">PolkaTax</span>
+    </div>
+    <div class="os-nav-links">
+      <div class="os-nav-link active">Wallets</div>
+      <div class="os-nav-link">Tutorial &amp; FAQ</div>
+    </div>
+    <div class="os-nav-right"><div class="os-icon-btn">⚙</div></div>
+  </div>
+
+  <div class="os-page">
+    <!-- empty state card -->
+    <div class="os-section">
+      <div class="os-card" style="max-width:520px;margin:0 auto;">
+        <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:12px;text-align:center;">No wallet connected</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <button class="btn-primary">Connect wallet</button>
+          <span style="font-size:13px;color:var(--ink-30);">or</span>
+          <input class="os-input" placeholder="Paste wallet address…" style="flex:1;" />
+          <button class="btn-primary">Add</button>
+        </div>
+        <div style="font-size:13px;color:var(--ink-50);text-align:center;">Connect your wallet or paste wallet address to start</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- wallets table (populated state) -->
+    <div class="os-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span class="eyebrow">Connected wallets</span>
+        <button class="btn-secondary" style="font-size:12px;height:26px;padding:0 10px;">+ Add wallet</button>
+      </div>
+
+      <div style="border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;">
+        <table class="os-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Wallet</th>
+              <th>Timeframe</th>
+              <th>Chains with tx</th>
+              <th>Chains evaluated</th>
+              <th>Currency</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="cursor:pointer;">
+              <td><div class="os-pill active">live</div></td>
+              <td class="mono">14BsPiu…BKcZ <span style="color:var(--blue-500);cursor:pointer;font-size:11px;margin-left:4px;">copy</span></td>
+              <td class="mono">2024-01-01 – 2024-12-31</td>
+              <td><span class="os-code">3</span></td>
+              <td><span class="os-code">12 / 14</span></td>
+              <td><span class="os-code">EUR</span></td>
+              <td><button class="btn-ghost" style="height:26px;padding:0 8px;font-size:12px;color:var(--ink-50);">🗑</button></td>
+            </tr>
+            <tr style="cursor:default;opacity:0.6;">
+              <td><div class="os-pill"><div class="spin-icon"></div></div></td>
+              <td class="mono">1FRMM8…qQcz</td>
+              <td class="mono">2024-01-01 – 2024-12-31</td>
+              <td><span class="os-code">—</span></td>
+              <td><span class="os-code">4 / 14</span></td>
+              <td><span class="os-code">USD</span></td>
+              <td><button class="btn-ghost" style="height:26px;padding:0 8px;font-size:12px;color:var(--ink-50);">🗑</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:12px;color:var(--ink-30);margin-top:8px;">Click a row to view its tax data. Syncing rows update in real time.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- 4. STAKING REWARDS PAGE -->
+<!-- ================================================ -->
+<p class="screen-label">4 / 5 — Staking rewards (StakingRewards.vue + RewardSummary + RewardsChart + StakingRewardsTable)</p>
+<div class="screen">
+  <div class="os-nav">
+    <div class="os-nav-left">
+      <div class="os-logo-mark">P</div>
+      <span class="os-logo-text">PolkaTax</span>
+    </div>
+    <div class="os-nav-links">
+      <div class="os-nav-link active">Wallets</div>
+      <div class="os-nav-link">Tutorial &amp; FAQ</div>
+    </div>
+    <div class="os-nav-right"><div class="os-icon-btn">⚙</div></div>
+  </div>
+  <div class="os-breadcrumb">
+    <a href="#">Wallets</a><span class="sep">/</span>
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-50);">14BsPiu…BKcZ</span>
+    <span class="sep">/</span>
+    <span>DOT</span>
+  </div>
+  <div class="os-tabs">
+    <div class="os-tab active">Staking rewards</div>
+    <div class="os-tab">Taxable events</div>
+    <div class="os-tab">Portfolio</div>
+  </div>
+
+  <div class="os-page">
+    <!-- stat tiles -->
+    <div class="grid-2" style="max-width:480px;margin-bottom:20px;">
+      <div class="os-card stat-tile">
+        <div class="eyebrow">Total rewards</div>
+        <div class="stat-value">142.83 <span style="font-size:16px;font-weight:600;color:var(--ink-50);">DOT</span></div>
+        <div class="stat-delta">↑ all time</div>
+      </div>
+      <div class="os-card stat-tile">
+        <div class="eyebrow">Value at payout</div>
+        <div class="stat-value" style="font-size:22px;">€ 1,247.60</div>
+        <div class="stat-delta">at payout prices</div>
+      </div>
+    </div>
+
+    <!-- export button -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button class="btn-secondary">Export PDF</button>
+      <button class="btn-secondary">Export CSV (Koinly)</button>
+    </div>
+
+    <!-- chart mock -->
+    <div class="os-card os-section" style="overflow:hidden;">
+      <div class="eyebrow" style="margin-bottom:12px;">Daily staking rewards — DOT</div>
+      <div class="chart-bars">
+        <div class="chart-bar" style="height:15%"></div>
+        <div class="chart-bar" style="height:35%"></div>
+        <div class="chart-bar" style="height:22%"></div>
+        <div class="chart-bar" style="height:55%"></div>
+        <div class="chart-bar" style="height:40%"></div>
+        <div class="chart-bar" style="height:70%"></div>
+        <div class="chart-bar" style="height:48%"></div>
+        <div class="chart-bar" style="height:60%"></div>
+        <div class="chart-bar" style="height:30%"></div>
+        <div class="chart-bar" style="height:80%"></div>
+        <div class="chart-bar" style="height:65%"></div>
+        <div class="chart-bar" style="height:50%"></div>
+        <div class="chart-bar" style="height:90%"></div>
+        <div class="chart-bar" style="height:75%"></div>
+        <div class="chart-bar" style="height:100%"></div>
+        <div class="chart-bar" style="height:82%"></div>
+        <div class="chart-bar" style="height:60%"></div>
+        <div class="chart-bar" style="height:45%"></div>
+        <div class="chart-bar" style="height:30%"></div>
+        <div class="chart-bar" style="height:55%"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:var(--ink-30);font-family:var(--font-mono);">
+        <span>Jan 2024</span><span>Jun 2024</span><span>Dec 2024</span>
+      </div>
+    </div>
+
+    <!-- rewards table -->
+    <div style="border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;">
+      <table class="os-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Amount (DOT)</th>
+            <th>Value (EUR)</th>
+            <th>Block</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2024-12-15</td><td>1.2450</td><td>€ 8.72</td><td class="mono"><a style="color:var(--blue-500);">23,441,002</a></td></tr>
+          <tr><td>2024-12-14</td><td>0.9812</td><td>€ 6.87</td><td class="mono"><a style="color:var(--blue-500);">23,432,110</a></td></tr>
+          <tr><td>2024-12-13</td><td>1.1040</td><td>€ 7.73</td><td class="mono"><a style="color:var(--blue-500);">23,423,045</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- 5. TAXABLE EVENTS TABLE -->
+<!-- ================================================ -->
+<p class="screen-label">5 / 5 — Taxable events (TaxableEventsTable.vue)</p>
+<div class="screen">
+  <div class="os-nav">
+    <div class="os-nav-left">
+      <div class="os-logo-mark">P</div>
+      <span class="os-logo-text">PolkaTax</span>
+    </div>
+    <div class="os-nav-links">
+      <div class="os-nav-link active">Wallets</div>
+      <div class="os-nav-link">Tutorial &amp; FAQ</div>
+    </div>
+    <div class="os-nav-right"><div class="os-icon-btn">⚙</div></div>
+  </div>
+  <div class="os-breadcrumb">
+    <a href="#">Wallets</a><span class="sep">/</span>
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-50);">14BsPiu…BKcZ</span>
+    <span class="sep">/</span><span>DOT</span>
+  </div>
+  <div class="os-tabs">
+    <div class="os-tab">Staking rewards</div>
+    <div class="os-tab active">Taxable events</div>
+    <div class="os-tab">Portfolio</div>
+  </div>
+
+  <div class="os-page">
+    <!-- toolbar -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+      <div style="display:flex;gap:8px;">
+        <button class="btn-secondary">Export CSV</button>
+        <button class="btn-secondary">Koinly export</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select class="os-select"><option>All types</option></select>
+        <select class="os-select"><option>All tokens</option></select>
+        <select class="os-select"><option>Show all</option></select>
+      </div>
+    </div>
+
+    <!-- table -->
+    <div style="border:1px solid var(--border);border-radius:var(--r-md);overflow:auto;">
+      <table class="os-table">
+        <thead>
+          <tr>
+            <th style="width:32px;"><input type="checkbox" /></th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Transaction / Block</th>
+            <th>Received</th>
+            <th>Sent</th>
+            <th>Fees</th>
+            <th>From / To</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="os-toggle on"></div></td>
+            <td class="mono">2024-12-15</td>
+            <td><span class="os-pill">staking_reward</span></td>
+            <td class="mono"><a style="color:var(--blue-500);">23,441,002-5</a></td>
+            <td class="mono" style="color:var(--ink);">+1.2450 DOT</td>
+            <td class="mono">—</td>
+            <td class="mono" style="color:var(--ink-30);">0.0012 DOT</td>
+            <td class="mono"><a style="color:var(--blue-500);">14BsP…BKcZ</a></td>
+            <td class="mono" style="color:var(--ink-30);">staking-payoutStakers</td>
+          </tr>
+          <tr>
+            <td><div class="os-toggle"></div></td>
+            <td class="mono">2024-12-14</td>
+            <td><span class="os-pill">transfer</span></td>
+            <td class="mono"><a style="color:var(--blue-500);">23,432,110-2</a></td>
+            <td class="mono">—</td>
+            <td class="mono" style="color:var(--ink);">-50.0000 DOT</td>
+            <td class="mono" style="color:var(--ink-30);">0.0025 DOT</td>
+            <td class="mono"><a style="color:var(--blue-500);">1FRMM…qQcz</a></td>
+            <td class="mono" style="color:var(--ink-30);">balances-transfer</td>
+          </tr>
+          <tr>
+            <td><div class="os-toggle on"></div></td>
+            <td class="mono">2024-12-10</td>
+            <td><span class="os-pill">xcm_transfer</span></td>
+            <td class="mono"><a style="color:var(--blue-500);">23,401,887-1</a></td>
+            <td class="mono">—</td>
+            <td class="mono" style="color:var(--ink);">-12.5000 DOT</td>
+            <td class="mono" style="color:var(--ink-30);">0.0018 DOT</td>
+            <td class="mono"><a style="color:var(--blue-500);">↑ Acala</a></td>
+            <td class="mono" style="color:var(--ink-30);">xcmPallet-transferAssets</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- pagination hint -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:var(--ink-30);">
+      <span>Showing 1–10 of 247 events</span>
+      <div style="display:flex;gap:6px;">
+        <button class="btn-ghost" style="height:26px;padding:0 8px;font-size:12px;">← Prev</button>
+        <button class="btn-ghost" style="height:26px;padding:0 8px;font-size:12px;">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- TUTORIAL/FAQ note -->
+<!-- ================================================ -->
+<p class="screen-label">Note — Tutorial &amp; FAQ page (TutorialFAQ.vue)</p>
+<div class="screen">
+  <div class="os-nav">
+    <div class="os-nav-left"><div class="os-logo-mark">P</div><span class="os-logo-text">PolkaTax</span></div>
+    <div class="os-nav-links">
+      <div class="os-nav-link">Wallets</div>
+      <div class="os-nav-link active">Tutorial &amp; FAQ</div>
+    </div>
+    <div class="os-nav-right"><div class="os-icon-btn">⚙</div></div>
+  </div>
+  <div class="os-page" style="max-width:900px;margin:0 auto;">
+    <!-- video cards: same treatment as feature cards — flat white, 1px border, 4px radius, no blur/shadow -->
+    <div class="os-card os-section">
+      <div class="eyebrow" style="margin-bottom:8px;">Getting started tutorial</div>
+      <div style="background:var(--mist);border-radius:var(--r-md);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--ink-30);font-size:13px;">
+        [video iframe — same ratio, no border-radius beyond 4px]
+      </div>
+    </div>
+
+    <!-- FAQ: flat bordered accordion, no shadows -->
+    <div class="eyebrow" style="margin-bottom:12px;">Frequently asked questions</div>
+    <div class="os-expand">
+      <div class="os-expand-header">How do I connect my wallet? <span style="color:var(--ink-30);">›</span></div>
+    </div>
+    <div class="os-expand">
+      <div class="os-expand-header">Which chains are supported? <span style="color:var(--ink-30);">›</span></div>
+      <div class="os-expand-body">We currently support: <span class="os-code">polkadot</span>, <span class="os-code">kusama</span>, <span class="os-code">moonbeam</span>, <span class="os-code">acala</span>, and more. EVM transactions are not analysed.</div>
+    </div>
+    <div class="os-expand">
+      <div class="os-expand-header">How do I export my transaction data? <span style="color:var(--ink-30);">›</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:16px;text-align:center;font-size:13px;color:#5a6173;">
+  All screens use only the OpenShore token system from <code style="color:#8b92a3;">colors_and_type.css</code>. No hex codes, no gradients, no blur.
+</div>
+
+</body>
+</html>

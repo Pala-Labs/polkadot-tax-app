@@ -1,107 +1,66 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpR fFf" class="os-layout">
     <AppHeader />
-    <q-page-container class="bg-grey-1">
-      <q-page class="bg-grey-1">
-        <!-- TUTORIAL VIDEO -->
-        <div style="max-width: 900px" class="q-mx-auto q-my-lg">
-          <q-card
-            flat
-            bordered
-            class="q-pa-md"
-            style="
-              border-radius: 16px;
-              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            "
-          >
-            <div class="text-h6 q-mb-md">Getting Started Tutorial</div>
-            <div
-              class="video-wrapper"
-              style="
-                position: relative;
-                background-color: white;
-                padding-bottom: 56.25%;
-                height: 0;
-                overflow: hidden;
-                border-radius: 12px;
-              "
-            >
-              <iframe
-                src="/tutorial.html"
-                frameborder="0"
-                allowfullscreen
-                style="
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  border-radius: 12px;
-                "
-                title="PolkaTax Tutorial"
-              ></iframe>
-            </div>
-          </q-card>
+    <q-page-container class="os-page-container">
+      <q-page class="os-page">
+        <div class="os-rail">
 
-          <q-card
-            flat
-            bordered
-            class="q-pa-md q-mt-md"
-            style="
-              border-radius: 16px;
-              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            "
-          >
-            <div class="text-h6 q-mb-md">Koinly Import Tutorial</div>
-            <div
-              class="video-wrapper"
-              style="
-                position: relative;
-                background-color: white;
-                padding-bottom: 56.25%;
-                height: 0;
-                overflow: hidden;
-                border-radius: 12px;
-              "
-            >
-              <iframe
-                src="/koinly-import-tutorial.html"
-                frameborder="0"
-                allowfullscreen
-                style="
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  border-radius: 12px;
-                "
-                title="PolkaTax Tutorial"
-              ></iframe>
+          <!-- Tutorial videos -->
+          <section class="os-section">
+            <span class="eyebrow">Getting started</span>
+            <div class="tutorial-card">
+              <div class="tutorial-card__title">Getting started tutorial</div>
+              <div class="tutorial-card__video">
+                <iframe
+                  src="/tutorial.html"
+                  frameborder="0"
+                  allowfullscreen
+                  title="PolkaTax Tutorial"
+                ></iframe>
+              </div>
             </div>
-          </q-card>
-        </div>
-        <!-- FAQ Section -->
-        <div class="q-mx-auto q-mb-xl q-my-xl content">
-          <div class="text-h5 text-bold q-mb-md">
-            Frequently Asked Questions
-          </div>
+            <div class="tutorial-card" style="margin-top: var(--sp-4)">
+              <div class="tutorial-card__title">Koinly import tutorial</div>
+              <div class="tutorial-card__video">
+                <iframe
+                  src="/koinly-import-tutorial.html"
+                  frameborder="0"
+                  allowfullscreen
+                  title="Koinly Import Tutorial"
+                ></iframe>
+              </div>
+            </div>
+          </section>
 
-          <q-expansion-item
-            v-for="(item, index) in faqItems"
-            :key="index"
-            :label="item.question"
-            group="faq"
-            expand-icon="expand_more"
-            :dense="false"
-            class="faq-item q-mb-md"
-            style="
-              border-radius: 16px;
-              box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
-            "
-          >
-            <div class="faq-answer q-pa-md">{{ item.answer }}</div>
-          </q-expansion-item>
+          <!-- FAQ -->
+          <section class="os-section">
+            <span class="eyebrow">Frequently asked questions</span>
+            <div class="faq-list">
+              <div
+                v-for="(item, index) in faqItems"
+                :key="index"
+                class="faq-item"
+                :class="{ 'faq-item--open': openIndex === index }"
+              >
+                <button class="faq-item__trigger" @click="toggle(index)">
+                  <span class="faq-item__question">{{ item.question }}</span>
+                  <svg
+                    class="faq-item__chevron"
+                    width="16" height="16"
+                    viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div v-if="openIndex === index" class="faq-item__answer">
+                  {{ item.answer }}
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
       </q-page>
     </q-page-container>
@@ -117,8 +76,8 @@ import { useSharedStore } from '../shared-module/store/shared.store';
 import { Subscription } from 'rxjs';
 
 const supportedChains: Ref<string[]> = ref([]);
-
 const store = useSharedStore();
+const openIndex = ref<number | null>(null);
 
 let chainsSubscription: Subscription;
 
@@ -135,11 +94,15 @@ onBeforeUnmount(() => {
   chainsSubscription.unsubscribe();
 });
 
+function toggle(index: number) {
+  openIndex.value = openIndex.value === index ? null : index;
+}
+
 const faqItems = computed(() => [
   {
     question: 'How do I connect my wallet?',
     answer:
-      'Click the "Connect Wallet" button on the home page. You don’t need to link your wallet directly—alternatively, copy your wallet address from your wallet app or extension and paste it into the input field.',
+      'Click the Connect Wallet button on the home page. You do not need to link your wallet directly — alternatively, copy your wallet address from your wallet app or extension and paste it into the input field.',
   },
   {
     question: 'Which chains are supported?',
@@ -156,7 +119,7 @@ const faqItems = computed(() => [
   {
     question: 'How do I export my transaction data?',
     answer:
-      'In the "Wallets" overview, select the wallet you want to export data from. This opens the list of connected blockchains. Click the export icon next to a chain.',
+      'In the Wallets overview, select the wallet you want to export data from. This opens the list of connected blockchains. Click the export icon next to a chain.',
   },
   {
     question: 'Is my data secure?',
@@ -166,7 +129,7 @@ const faqItems = computed(() => [
   {
     question: 'Can I use PolkaTax for multiple accounts?',
     answer:
-      'Yes. You can connect multiple wallets and manage their data seamlessly from a single dashboard. PolkaTax will automatically recognize that all the wallets you’ve connected belong to you.',
+      'Yes. You can connect multiple wallets and manage their data seamlessly from a single dashboard. PolkaTax will automatically recognize that all connected wallets belong to you.',
   },
   {
     question: 'What kind of data is shown or exported?',
@@ -176,132 +139,129 @@ const faqItems = computed(() => [
   {
     question: 'Can I export specific parts of my data?',
     answer:
-      'Yes. The "Staking Rewards" tab lets you export staking data only. In the "Taxable Events" tab, you can filter exports by asset movement type and token.',
+      'Yes. The Staking Rewards tab lets you export staking data only. In the Taxable Events tab, you can filter exports by asset movement type and token.',
   },
   {
     question: 'Why do some tokens show a cost basis of $0 in Koinly?',
     answer:
-      'PolkaTax currently only exports data starting from beginning of 2024. This means tokens you acquired before that year are not included in the CSV, and tax software like Koinly may assume you received them for $0, which inflates reported gains. To fix this, you can manually create a deposit in Koinly for each token you already held at the start of the year by going to your wallet, clicking "Add Transaction" → "Deposit", setting the date to the first day of the tax year, entering the number of tokens you held at that time, and providing the original purchase price in fiat currency. This way, Koinly knows these tokens were already owned and calculates gains correctly when you later sell or transfer them.',
+      'PolkaTax currently only exports data starting from beginning of 2024. This means tokens you acquired before that year are not included in the CSV, and tax software like Koinly may assume you received them for $0, which inflates reported gains. To fix this, create a deposit in Koinly for each token you already held at the start of the year.',
   },
   {
-    question: 'Why isn’t the data up to date?',
+    question: 'Why is the data not always up to date?',
     answer:
-      'To maintain data accuracy, PolkaTax synchronizes information up to a recent point in the past (for example, about one month ago). This delay allows the system to correctly handle new blockchain features or special events, such as the AssetHub migration, before processing the latest data.',
+      'To maintain data accuracy, PolkaTax synchronizes information up to a recent point in the past (for example, about one month ago). This delay allows the system to correctly handle new blockchain features or special events before processing the latest data.',
   },
   {
-    question:
-      'Why does Koinly sometimes show errors or incorrect prices for certain tokens?',
+    question: 'Why does Koinly sometimes show errors or incorrect prices for certain tokens?',
     answer:
-      'Koinly maintains its own database of recognized tokens. If a token is new, less common, or not included in Koinly’s list, for example vGLMR, it may show an error, be missing, or accidentally map the symbol to the wrong token. To fix this, you can manually create or edit the token in Koinly by going to Settings → Manage Coins → Add Coin, entering the correct token name, symbol, and decimal places, and optionally setting a price source or historical price. This ensures Koinly calculates gains and losses correctly for that token.',
+      'Koinly maintains its own database of recognized tokens. If a token is new, less common, or not in Koinly\'s list, it may show an error or be missing. To fix this, create or edit the token in Koinly under Settings > Manage Coins > Add Coin.',
   },
   {
     question: 'What about tokens that have no exchange rate, like LP tokens?',
     answer:
-      'Some tokens, such as LP tokens (for example, BLP), do not have a direct market price. When exporting data to Koinly, this can cause issues with cost basis or gains calculation. ' +
-      'PolkaTax provides the option to exclude such tokens entirely from your export. However, excluding tokens may affect your tax reporting, so this feature should be used with caution.',
+      'Some tokens, such as LP tokens, do not have a direct market price. PolkaTax provides the option to exclude such tokens entirely from your export. However, excluding tokens may affect your tax reporting, so use this feature with caution.',
   },
 ]);
 </script>
 
 <style scoped>
-.faq-item .q-expansion-item__header {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--q-primary);
-  padding: 1.2rem 1.5rem;
-  min-height: 60px;
+.os-layout { background: var(--paper) !important; }
+.os-page-container { background: var(--paper); }
+.os-page { background: var(--paper); }
+
+.os-rail {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6) var(--sp-12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
 }
 
-.faq-item .q-expansion-item__content {
-  background-color: #fafafa;
-  border-radius: 0 0 16px 16px;
-  padding: 1.5rem 2rem;
-  color: #444;
-  font-size: 1rem;
-  line-height: 1.6;
-  letter-spacing: 0.02em;
+.os-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
 }
 
-.q-page {
-  background: white;
+/* Tutorial cards */
+.tutorial-card {
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+}
+.tutorial-card__title {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semi);
+  color: var(--ink);
+  margin-bottom: var(--sp-3);
+}
+.tutorial-card__video {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+.tutorial-card__video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* Keep video rounding smooth */
-.video-wrapper iframe {
-  border-radius: 12px;
+/* FAQ accordion */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
 }
-
-.q-layout {
-  font-family: 'Inter', sans-serif;
-  margin: auto;
+.faq-item {
+  border-bottom: 1px solid var(--border);
 }
+.faq-item:last-child { border-bottom: none; }
 
-.section-title {
-  font-weight: 700;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.card-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+.faq-item__trigger {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-  transition: transform 0.3s ease;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--canvas);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  text-align: left;
+  transition: background var(--dur) var(--ease);
 }
+.faq-item__trigger:hover { background: var(--mist); }
+.faq-item--open .faq-item__trigger { background: var(--blue-50); }
 
-.q-btn {
-  transition: transform 0.2s ease;
+.faq-item__question {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  color: var(--ink);
+  letter-spacing: var(--tr-snug);
+  line-height: var(--lh-normal);
 }
-.q-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+.faq-item__chevron {
+  flex-shrink: 0;
+  color: var(--ink-50);
+  transition: transform var(--dur) var(--ease);
 }
+.faq-item--open .faq-item__chevron { transform: rotate(180deg); }
 
-.q-card {
-  transition: all 0.3s ease;
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-.q-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
-}
-.q-card:hover .card-icon {
-  transform: scale(1.1) rotate(2deg);
-  transition: transform 0.3s ease;
-}
-
-.hover-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.hover-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-}
-
-.cta {
-  background: linear-gradient(to right, #ec4899, #8b5cf6);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-a {
-  transition: color 0.3s;
-}
-a:hover {
-  color: white !important;
-}
-
-.features-section {
-  background: #f9fafb;
-  padding: 3rem 1rem;
-  border-radius: 24px;
+.faq-item__answer {
+  padding: var(--sp-4) var(--sp-5);
+  font-size: var(--fs-base);
+  color: var(--ink-50);
+  line-height: var(--lh-relaxed);
+  background: var(--canvas);
+  border-top: 1px solid var(--border);
 }
 </style>
