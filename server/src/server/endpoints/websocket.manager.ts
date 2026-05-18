@@ -16,7 +16,7 @@ import { getBeginningLastYear } from "../job-management/get-beginning-last-year"
 import { Job } from "../../model/job";
 import { pruneJobResult } from "./helper/prune-jobs-results";
 
-const MAX_SYNC_DATE = new Date("2025-09-30T23:59:59.999Z").getTime();
+const MAX_SYNC_DATE = Date.now();
 
 interface Subscription {
   jobId: string;
