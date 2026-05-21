@@ -4,8 +4,10 @@
     <header class="welcome-header">
       <div class="welcome-header__inner">
         <div class="welcome-header__brand">
-          <img src="/favicon.ico" class="welcome-header__logo" alt="" />
-          <span class="welcome-header__name">PolkaTax</span>
+          <span class="welcome-header__brand-stack">
+            <span class="welcome-header__eyebrow">PALA LABS</span>
+            <span class="welcome-header__name">Polkadot Tax Tool</span>
+          </span>
         </div>
         <nav class="welcome-header__nav">
           <router-link to="/wallets" class="welcome-header__link welcome-header__link--active">Wallets</router-link>
@@ -49,7 +51,7 @@
     <!-- CTA -->
     <section class="cta-section">
       <h2 class="cta-section__title">Ready to simplify your crypto taxes?</h2>
-      <p class="cta-section__sub">Use PolkaTax for accurate, compliant tax reporting.</p>
+      <p class="cta-section__sub">Use Polkadot Tax Tool for accurate, compliant tax reporting.</p>
       <router-link to="/wallets" class="btn btn--primary" data-testid="launch-button2">Launch app</router-link>
     </section>
 
@@ -110,13 +112,20 @@ const features = [
   align-items: center;
   gap: var(--sp-2);
 }
-.welcome-header__logo {
-  width: 24px;
-  height: 24px;
-  border-radius: var(--r-md);
+.welcome-header__brand-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.welcome-header__eyebrow {
+  font-size: 9px;
+  font-weight: var(--fw-semi);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-50);
 }
 .welcome-header__name {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base);
   font-weight: var(--fw-semi);
   color: var(--ink);
   letter-spacing: var(--tr-snug);

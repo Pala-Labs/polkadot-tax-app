@@ -1,7 +1,7 @@
 {
-  "name": "substrate-staking-rewards-client",
-  "description": "A tool to display and export staking rewards on Polkadot and other substrate chains",
-  "productName": "PolkaTax",
+  "name": "polkadot-tax-tool-client",
+  "description": "Polkadot Tax Tool by Pala Labs — display and export tax-relevant transactions on Polkadot and other Substrate chains.",
+  "productName": "Polkadot Tax Tool",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue .",
     "lint-fix": "eslint --ext .js,.ts,.vue . --fix",

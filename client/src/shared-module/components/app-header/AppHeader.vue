@@ -4,8 +4,10 @@
       <!-- Left: logo / back + title -->
       <div class="os-header__left">
         <a v-if="!parentRoute" href="/" class="os-header__brand">
-          <img src="/favicon.ico" class="os-header__logo" alt="" />
-          <span class="os-header__name">PolkaTax</span>
+          <span class="os-header__brand-stack">
+            <span class="os-header__eyebrow">PALA LABS</span>
+            <span class="os-header__name">Polkadot Tax Tool</span>
+          </span>
         </a>
         <template v-if="parentRoute">
           <router-link :to="parentRoute" class="os-btn os-btn--ghost os-btn--sm">
@@ -89,13 +91,20 @@ const parentRoute = computed(() => {
   gap: var(--sp-2);
   text-decoration: none;
 }
-.os-header__logo {
-  width: 24px;
-  height: 24px;
-  border-radius: var(--r-md);
+.os-header__brand-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.os-header__eyebrow {
+  font-size: 9px;
+  font-weight: var(--fw-semi);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-50);
 }
 .os-header__name {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base);
   font-weight: var(--fw-semi);
   color: var(--ink);
   letter-spacing: var(--tr-snug);

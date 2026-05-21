@@ -137,7 +137,7 @@ async function selectWallet(wallet: WalletStatus) {
 async function connectSubstrateWallet(wallet: WalletStatus) {
   const injectedWallets = (window as any).injectedWeb3 || {};
   const myWallet = injectedWallets[wallet.id];
-  await myWallet.enable('Polkatax');
+  await myWallet.enable('Polkadot Tax Tool');
 }
 
 async function closeDialog() {

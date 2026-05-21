@@ -2,8 +2,10 @@
   <footer class="os-footer">
     <div class="os-footer__inner">
       <div class="os-footer__brand desktop-only">
-        <img src="/favicon.ico" class="os-footer__logo" alt="" />
-        <span class="os-footer__name">PolkaTax</span>
+        <span class="os-footer__brand-stack">
+          <span class="os-footer__eyebrow">PALA LABS</span>
+          <span class="os-footer__name">Polkadot Tax Tool</span>
+        </span>
         <p class="os-footer__tagline">The easiest way to handle your Substrate chain tax reporting.</p>
       </div>
       <div v-for="(group, g) in footerLinks" :key="g" class="os-footer__col">
@@ -15,8 +17,10 @@
       </div>
     </div>
     <div class="os-footer__bottom">
-      2025 PolkaTax. Crypto currency quotes provided by
-      <a href="https://coingecko.com" class="os-footer__link" target="_blank" rel="noopener">coingecko.com</a>
+      &copy; 2026 Polkadot Tax Tool &middot; developed by
+      <a href="https://pala-labs.com" class="os-footer__link" target="_blank" rel="noopener">Pala Labs</a>.
+      Crypto currency quotes provided by
+      <a href="https://coingecko.com" class="os-footer__link" target="_blank" rel="noopener">coingecko.com</a>.
     </div>
   </footer>
 </template>
@@ -32,7 +36,7 @@ const footerLinks = [
   {
     title: 'Resources',
     links: [
-      { label: 'GitHub', routerLink: undefined, link: 'https://github.com/polkatax/polkatax' },
+      { label: 'GitHub', routerLink: undefined, link: 'https://github.com/Pala-Labs/polkadot-tax-app' },
     ],
   },
 ];
@@ -60,13 +64,20 @@ const footerLinks = [
   flex-direction: column;
   gap: var(--sp-2);
 }
-.os-footer__logo {
-  width: 24px;
-  height: 24px;
-  border-radius: var(--r-md);
+.os-footer__brand-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.os-footer__eyebrow {
+  font-size: 9px;
+  font-weight: var(--fw-semi);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-50);
 }
 .os-footer__name {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base);
   font-weight: var(--fw-semi);
   color: var(--ink);
 }

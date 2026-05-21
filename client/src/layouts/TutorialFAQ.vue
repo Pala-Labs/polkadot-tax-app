@@ -15,7 +15,7 @@
                   src="/tutorial.html"
                   frameborder="0"
                   allowfullscreen
-                  title="PolkaTax Tutorial"
+                  title="Polkadot Tax Tool Tutorial"
                 ></iframe>
               </div>
             </div>
@@ -112,9 +112,9 @@ const faqItems = computed(() => [
       '. EVM transactions (such as Moonbeam) are not analysed.',
   },
   {
-    question: 'Does PolkaTax support both substrate and EVM transactions?',
+    question: 'Does Polkadot Tax Tool support both substrate and EVM transactions?',
     answer:
-      'No. PolkaTax exclusively analyses and exports substrate transactions.',
+      'No. Polkadot Tax Tool exclusively analyses and exports substrate transactions.',
   },
   {
     question: 'How do I export my transaction data?',
@@ -124,12 +124,12 @@ const faqItems = computed(() => [
   {
     question: 'Is my data secure?',
     answer:
-      'PolkaTax only accesses publicly available blockchain data and stores it in a secure database. No personal or sensitive information is ever transmitted to external servers.',
+      'Polkadot Tax Tool only accesses publicly available blockchain data and stores it in a secure database. No personal or sensitive information is ever transmitted to external servers.',
   },
   {
-    question: 'Can I use PolkaTax for multiple accounts?',
+    question: 'Can I use Polkadot Tax Tool for multiple accounts?',
     answer:
-      'Yes. You can connect multiple wallets and manage their data seamlessly from a single dashboard. PolkaTax will automatically recognize that all connected wallets belong to you.',
+      'Yes. You can connect multiple wallets and manage their data seamlessly from a single dashboard. Polkadot Tax Tool will automatically recognize that all connected wallets belong to you.',
   },
   {
     question: 'What kind of data is shown or exported?',
@@ -144,12 +144,12 @@ const faqItems = computed(() => [
   {
     question: 'Why do some tokens show a cost basis of $0 in Koinly?',
     answer:
-      'PolkaTax currently only exports data starting from beginning of 2024. This means tokens you acquired before that year are not included in the CSV, and tax software like Koinly may assume you received them for $0, which inflates reported gains. To fix this, create a deposit in Koinly for each token you already held at the start of the year.',
+      'Polkadot Tax Tool currently only exports data starting from beginning of 2024. This means tokens you acquired before that year are not included in the CSV, and tax software like Koinly may assume you received them for $0, which inflates reported gains. To fix this, create a deposit in Koinly for each token you already held at the start of the year.',
   },
   {
     question: 'Why is the data not always up to date?',
     answer:
-      'To maintain data accuracy, PolkaTax synchronizes information up to a recent point in the past (for example, about one month ago). This delay allows the system to correctly handle new blockchain features or special events before processing the latest data.',
+      'To maintain data accuracy, Polkadot Tax Tool synchronizes information up to a recent point in the past (for example, about one month ago). This delay allows the system to correctly handle new blockchain features or special events before processing the latest data.',
   },
   {
     question: 'Why does Koinly sometimes show errors or incorrect prices for certain tokens?',
@@ -159,7 +159,7 @@ const faqItems = computed(() => [
   {
     question: 'What about tokens that have no exchange rate, like LP tokens?',
     answer:
-      'Some tokens, such as LP tokens, do not have a direct market price. PolkaTax provides the option to exclude such tokens entirely from your export. However, excluding tokens may affect your tax reporting, so use this feature with caution.',
+      'Some tokens, such as LP tokens, do not have a direct market price. Polkadot Tax Tool provides the option to exclude such tokens entirely from your export. However, excluding tokens may affect your tax reporting, so use this feature with caution.',
   },
 ]);
 </script>
