@@ -7,15 +7,15 @@
         <div class="os-empty-state__title">No wallet connected</div>
         <p class="os-empty-state__sub">Connect your wallet or paste a wallet address to start.</p>
         <div class="os-empty-state__actions">
-          <button class="os-btn os-btn--primary" data-testid="submit" @click="showWalletSelectionDialog = true">
+          <button class="os-btn os-btn--primary" data-testid="submit" @click="requestConnectWallet">
             Connect wallet
           </button>
           <span class="os-empty-state__or">or</span>
-          <address-input v-model="store.address" @enter-pressed="startSyncing" />
+          <address-input v-model="store.address" @enter-pressed="requestStartSyncing" />
           <button
             class="os-btn os-btn--secondary"
             data-testid="submit"
-            @click="startSyncing"
+            @click="requestStartSyncing"
             :disabled="isDisabled"
           >
             Add
@@ -73,7 +73,7 @@
       </div>
 
       <div style="margin-top: var(--sp-4)">
-        <button class="os-btn os-btn--secondary" @click="showAddWalletDialog = true">
+        <button class="os-btn os-btn--secondary" @click="requestAddWallet">
           + Add wallet
         </button>
       </div>
@@ -85,6 +85,11 @@
       @add-wallet="startSyncing"
     />
     <wallet-selection v-model:show-dialog="showWalletSelectionDialog" />
+    <disclaimer-dialog
+      v-model:show-dialog="showDisclaimerDialog"
+      @accepted="runPendingAction"
+      @cancelled="pendingAction = null"
+    />
   </q-page>
 </template>
 
@@ -96,6 +101,8 @@ import { useSharedStore } from '../../shared-module/store/shared.store';
 import { isValidAddress } from '../../shared-module/util/is-valid-address';
 import AddWallet from './add-wallet/AddWallet.vue';
 import WalletSelection from './wallet-selection/WalletSelection.vue';
+import DisclaimerDialog from '../../shared-module/components/disclaimer-dialog/DisclaimerDialog.vue';
+import { hasAcceptedCurrentDisclaimer } from '../../shared-module/util/disclaimer-acceptance';
 import { useQuasar } from 'quasar';
 import { JobResult } from '../../shared-module/model/job-result';
 import { showMaxWalletsReachedNotif } from '../../shared-module/store/helper/show-max-wallets-reached-notif';
@@ -109,6 +116,10 @@ const wallets: Ref<WalletRow[] | undefined> = ref(undefined);
 const walletAddresses: Ref<string[]> = ref([]);
 const showWalletSelectionDialog = ref(false);
 const showAddWalletDialog = ref(false);
+const showDisclaimerDialog = ref(false);
+
+type PendingAction = 'connect-wallet' | 'start-syncing' | 'add-wallet';
+const pendingAction: Ref<PendingAction | null> = ref(null);
 
 let walletAddressesSub: Subscription;
 let jobsSubscription: Subscription;
@@ -170,6 +181,46 @@ async function startSyncing() {
     } else {
       store.address = '';
     }
+  }
+}
+
+function gateOrRun(action: PendingAction, run: () => void) {
+  if (hasAcceptedCurrentDisclaimer()) {
+    run();
+    return;
+  }
+  pendingAction.value = action;
+  showDisclaimerDialog.value = true;
+}
+
+function requestConnectWallet() {
+  gateOrRun('connect-wallet', () => {
+    showWalletSelectionDialog.value = true;
+  });
+}
+
+function requestStartSyncing() {
+  if (isDisabled.value) return;
+  gateOrRun('start-syncing', () => {
+    startSyncing();
+  });
+}
+
+function requestAddWallet() {
+  gateOrRun('add-wallet', () => {
+    showAddWalletDialog.value = true;
+  });
+}
+
+function runPendingAction() {
+  const action = pendingAction.value;
+  pendingAction.value = null;
+  if (action === 'connect-wallet') {
+    showWalletSelectionDialog.value = true;
+  } else if (action === 'start-syncing') {
+    startSyncing();
+  } else if (action === 'add-wallet') {
+    showAddWalletDialog.value = true;
   }
 }
 
